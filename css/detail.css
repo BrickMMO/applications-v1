@@ -475,6 +475,83 @@ footer {
     color: black;
 }
 
+/* Accordion Styles - Themed to match website */
+.accordion {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: none;
+    margin-bottom: 30px;
+}
+.accordion-item {
+    background: #ffe8d6;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.accordion-item:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+.accordion-header {
+    width: 100%;
+    background: #ffe8d6;
+    color: #ff5b00;
+    border: none;
+    outline: none;
+    padding: 20px 28px;
+    text-align: left;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    font-family: 'Lato', sans-serif;
+    border-radius: 10px;
+}
+.accordion-header:hover {
+    background: #ffecd6;
+    color: #ea5302;
+    transform: translateY(-1px);
+}
+.accordion-header.active {
+    background: #ff5b00;
+    color: white;
+    border-radius: 10px 10px 0 0;
+}
+.accordion-header i {
+    margin-right: 10px;
+    font-size: 16px;
+}
+.accordion-icon {
+    font-size: 18px;
+    margin-left: 10px;
+    color: #ff5b00;
+    transition: all 0.3s ease;
+}
+.accordion-header:hover .accordion-icon {
+    color: #ea5302;
+}
+.accordion-header.active .accordion-icon {
+    color: white;
+    transform: rotate(180deg);
+}
+.accordion-body {
+    padding: 30px;
+    background: #fff;
+    display: none;
+    animation: fadeInAccordion 0.3s;
+    border-radius: 0 0 10px 10px;
+    border-top: 3px solid #ff5b00;
+}
+@keyframes fadeInAccordion {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
     #repo-card, #readme-section {
@@ -501,6 +578,19 @@ footer {
         margin-top: 15px;
     }
 
+    #graphs-section {
+        max-width: 90% !important;
+    }
+
+    .accordion-header {
+        padding: 18px 20px;
+        font-size: 16px;
+    }
+
+    .accordion-body {
+        padding: 20px;
+    }
+
     .modal-content {
         width: 95%;
         margin: 2% auto;
@@ -520,6 +610,19 @@ footer {
     #repo-card, #readme-section {
         padding: 20px;
         max-width: 95%;
+    }
+
+    #graphs-section {
+        max-width: 95% !important;
+    }
+
+    .accordion-header {
+        padding: 15px 18px;
+        font-size: 15px;
+    }
+
+    .accordion-body {
+        padding: 18px;
     }
 
     .repo-image {
@@ -595,6 +698,19 @@ footer {
 
     .issues-container {
         flex-direction: column;
+    }
+
+    #graphs-section {
+        max-width: 98% !important;
+    }
+
+    .accordion-header {
+        padding: 12px 15px;
+        font-size: 14px;
+    }
+
+    .accordion-body {
+        padding: 15px;
     }
 
     .modal-content {
