@@ -171,38 +171,46 @@ if (isset($_GET['repo'])) {
                         </li>
                         <li><strong>Last Commit:</strong> 
                             <span id="commits"> <?= $latestCommit['name'] ?? 'N/A' ?> on <?= $latestCommit['date'] ?? 'N/A' ?> </span>
-                            <button class="interactive-btn" onclick="toggleCommitActivity()">
-                                <i class="fas fa-chart-line"></i> View Commit Activity
-                            </button>
                         </li>
                         <li><strong>Merges:</strong> <span id="merges"> <?= $mergesCount ?? 'N/A' ?> </span></li>
                         <li><strong>Clones:</strong> <span id="clones"> <?= $clonesCount ?> </span></li>
                         <li><strong>Languages Used:</strong> 
-                            <!-- <span id="languages"> <?= $languagesDisplay ?> </span> -->
                             <span id="languages"> <?= implode(', ', array_keys($languages)) ?: 'N/A' ?> </span>
                             <?php if (!empty($languages)): ?>
-                                <button class="interactive-btn" onclick="toggleLanguageChart()">
-                                    <i class="fas fa-chart-pie"></i> View Language Distribution
-                                </button>
                             <?php endif; ?>
                         </li>
                         <li><strong>Issues:</strong>
                             <div class="issues-container">
-                                <div class="issue-stat">
-                                    <i class="fas fa-exclamation-circle"></i>
-                                    <span>Open Issues: <?= $openIssuesCount ?></span>
-                                </div>
-                                <div class="issue-stat bug">
-                                    <i class="fas fa-bug"></i>
-                                    <span>Bugs: <?= $bugIssuesCount ?></span>
-                                </div>
-                                <div class="issue-stat good-first">
-                                    <i class="fas fa-seedling"></i>
-                                    <span>Good First Issues: <?= $goodFirstIssueCount ?></span>
-                                </div>
                             </div>
                         </li>
                     </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Insert Graphs Section Here -->
+        <section id="graphs-section" style="max-width:70%;margin:30px auto 0 auto;">
+            <div style="background:#fff;padding:30px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);margin-bottom:30px;">
+                <h3 style="color:#ff5b00;"><i class="fas fa-chart-pie"></i> Language Distribution</h3>
+                <canvas id="languageChart"></canvas>
+            </div>
+            <div style="background:#fff;padding:30px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,0.1);">
+                <h3 style="color:#ff5b00;"><i class="fas fa-chart-line"></i> Commit Activity by Contributor</h3>
+                <canvas id="commitChart"></canvas>
+                <div id="commit-details">
+                    <?php foreach ($commitsByContributor as $contributor => $commits): ?>
+                        <div class="contributor-commits">
+                            <h4><?= htmlspecialchars($contributor) ?> (<?= count($commits) ?> commits)</h4>
+                            <div class="recent-commits">
+                                <?php foreach (array_slice($commits, 0, 5) as $commit): ?>
+                                    <div class="commit-item">
+                                        <span class="commit-date"><?= date('M j, Y', strtotime($commit['date'])) ?></span>
+                                        <span class="commit-message"><?= htmlspecialchars(substr($commit['message'], 0, 80)) ?><?= strlen($commit['message']) > 80 ? '...' : '' ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </section>
@@ -216,47 +224,6 @@ if (isset($_GET['repo'])) {
             </div>
         </section>
         <?php endif; ?>
-
-        <!-- Language Chart Modal -->
-        <div id="language-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3><i class="fas fa-chart-pie"></i> Language Distribution</h3>
-                    <span class="close" onclick="toggleLanguageChart()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <canvas id="languageChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Commit Activity Modal -->
-        <div id="commit-modal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3><i class="fas fa-chart-line"></i> Commit Activity by Contributor</h3>
-                    <span class="close" onclick="toggleCommitActivity()">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <canvas id="commitChart"></canvas>
-                    <div id="commit-details">
-                        <?php foreach ($commitsByContributor as $contributor => $commits): ?>
-                            <div class="contributor-commits">
-                                <h4><?= htmlspecialchars($contributor) ?> (<?= count($commits) ?> commits)</h4>
-                                <div class="recent-commits">
-                                    <?php foreach (array_slice($commits, 0, 5) as $commit): ?>
-                                        <div class="commit-item">
-                                            <span class="commit-date"><?= date('M j, Y', strtotime($commit['date'])) ?></span>
-                                            <span class="commit-message"><?= htmlspecialchars(substr($commit['message'], 0, 80)) ?><?= strlen($commit['message']) > 80 ? '...' : '' ?></span>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-            </div>
-        </div>
 
     </main>
     <footer>
@@ -276,43 +243,18 @@ if (isset($_GET['repo'])) {
     const languageData = <?= json_encode($languages) ?>;
     const commitData = <?= json_encode($commitsByContributor) ?>;
 
-    // Toggle Language Chart Modal
-    function toggleLanguageChart() {
-        const modal = document.getElementById('language-modal');
-        if (modal.style.display === 'block') {
-            modal.style.display = 'none';
-        } else {
-            modal.style.display = 'block';
-            createLanguageChart();
-        }
-    }
-
-    // Toggle Commit Activity Modal
-    function toggleCommitActivity() {
-        const modal = document.getElementById('commit-modal');
-        if (modal.style.display === 'block') {
-            modal.style.display = 'none';
-        } else {
-            modal.style.display = 'block';
-            createCommitChart();
-        }
-    }
-
     // Create Language Distribution Pie Chart
     function createLanguageChart() {
         const ctx = document.getElementById('languageChart').getContext('2d');
-        
+        if (!ctx) return;
         const labels = Object.keys(languageData);
         const data = Object.values(languageData);
         const total = data.reduce((a, b) => a + b, 0);
-        
-        // Generate colors for each language
         const colors = [
             '#ff5b00', '#ff8c42', '#ffa366', '#ffba8a', '#ffd1ae',
             '#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6',
             '#1abc9c', '#34495e', '#16a085', '#27ae60', '#2980b9'
         ];
-
         new Chart(ctx, {
             type: 'pie',
             data: {
@@ -327,14 +269,14 @@ if (isset($_GET['repo'])) {
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
+                    legend: { position: 'bottom' },
                     tooltip: {
                         callbacks: {
                             label: function(context) {
-                                const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                return context.label + ': ' + percentage + '%';
+                                let label = context.label || '';
+                                let value = context.parsed;
+                                let percent = total ? ((value / total) * 100).toFixed(1) : 0;
+                                return `${label}: ${value} (${percent}%)`;
                             }
                         }
                     }
@@ -346,10 +288,9 @@ if (isset($_GET['repo'])) {
     // Create Commit Activity Bar Chart
     function createCommitChart() {
         const ctx = document.getElementById('commitChart').getContext('2d');
-        
+        if (!ctx) return;
         const contributors = Object.keys(commitData);
         const commitCounts = contributors.map(contributor => commitData[contributor].length);
-
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -367,32 +308,19 @@ if (isset($_GET['repo'])) {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: {
-                            stepSize: 1
-                        }
+                        ticks: { stepSize: 1 }
                     }
                 },
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                }
+                plugins: { legend: { display: false } }
             }
         });
     }
 
-    // Close modal when clicking outside
-    window.onclick = function(event) {
-        const languageModal = document.getElementById('language-modal');
-        const commitModal = document.getElementById('commit-modal');
-        
-        if (event.target === languageModal) {
-            languageModal.style.display = 'none';
-        }
-        if (event.target === commitModal) {
-            commitModal.style.display = 'none';
-        }
-    }
-</script>
+    // Render charts on page load
+    window.addEventListener('DOMContentLoaded', function() {
+        createLanguageChart();
+        createCommitChart();
+    });
+    </script>
 </body>
 </html>
