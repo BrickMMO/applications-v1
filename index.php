@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Applications | BrickMMO</title>
-    <link rel="icon" type="image/x-icon" href="./assets/BrickMMO_Logo_Coloured.png" />
     
     <!-- Google Icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=arrow_forward" />
@@ -24,24 +23,6 @@
 
   <!-- header section -->
   <header>
-    <!-- container for desktop header section, including logo and horizontal nav -->
-    <nav id="desktop-nav">
-
-      <!-- container for logo -->
-      <div class="logo">
-        <a href="index.html">
-          <img src="./assets/BrickMMO_Logo_Coloured.png" alt="brickmmo logo" width="80px">
-        </a>
-      </div>
-
-      <!-- container for menu links -->
-      <div>
-        <ul class="nav-links">
-          <li><a href="https://brickmmo.com/">BrickMMo Main Site</a></li>
-        </ul>
-      </div>
-
-    </nav>
 
     <section id="hero">
       <h1>BrickMMO Applications</h1>
