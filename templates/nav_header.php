@@ -115,6 +115,7 @@
 -->
 <?php */ ?>
 
+<?php /* ?>
 <div
   id="avatar-options"
   class="w3-modal"
@@ -227,3 +228,4 @@
     }
 
 </script>
+<?php */ ?>

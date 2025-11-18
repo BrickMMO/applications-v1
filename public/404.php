@@ -19,7 +19,7 @@ include('../templates/login_header.php');
 
     <?php include('../templates/message.php'); ?>
 
-    <a href="<?=ENV_DOMAIN?>/">Events</a> | 
+    <a href="<?=ENV_DOMAIN?>/">Applications</a> | 
 
     <?php if($_user): ?>
         <a href="<?=ENV_SSO_DOMAIN?>/action/logout">Logout</a> | 

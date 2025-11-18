@@ -5,37 +5,33 @@ function navigation_array($selected = false)
 
     $navigation = [
         [
-            'title' => 'Events',
+            'title' => 'Applications',
             'sections' => [
                 [
-                    'title' => 'Events',
+                    'title' => 'Applications',
                     'id' => 'admin-content',
                     'pages' => [
                         [
-                            'icon' => 'events',
+                            'icon' => 'applications',
                             'url' => '/admin/dashboard',
-                            'title' => 'Events',
+                            'title' => 'Applications',
                             'sub-pages' => [
                                 [
                                     'title' => 'Dashboard',
                                     'url' => '/admin/dashboard',
                                     'colour' => 'red',
                                 ],[
-                                    'title' => 'Add Event',
-                                    'url' => '/admin/add',
-                                    'colour' => 'red',
-                                ],[
                                     'br' => '---',
                                 ],[
-                                    'title' => 'Visit Events App',
-                                    'url' => 'https://events.brickmmo.com',
+                                    'title' => 'Visit Applications App',
+                                    'url' => 'https://applications.brickmmo.com',
                                     'colour' => 'orange',
                                     'icon' => 'fa-solid fa-arrow-up-right-from-square',
                                 ],[
                                     'br' => '---',
                                 ],[
                                     'title' => 'Uptime Report',
-                                    'url' => 'https://uptime.brickmmo.com/details/9',
+                                    'url' => 'https://uptime.brickmmo.com/details/2',
                                     'colour' => 'orange',
                                     'icons' => 'bm-uptime',
                                 ],[
