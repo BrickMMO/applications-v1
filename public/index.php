@@ -71,7 +71,7 @@ $parts = array_filter(explode("/", trim($_SERVER['REQUEST_URI'], "/")));
 if(!count($parts))
 {
 
-    header_redirect(ENV_DOMAIN.'/list');
+    header_redirect(ENV_DOMAIN.'/q');
 
 }
 

@@ -98,3 +98,40 @@ function string_normalize_url($url)
     // Reconstruct normalized URL (always use https for comparison)
     return 'https://' . $host . $port . $path . $query;
 }
+
+// Converts a string to a URL-friendly format: lowercase, dashes for spaces, removes punctuation except dashes
+function string_url($string) 
+{
+
+    // Convert to lowercase
+    $string = strtolower($string);
+
+    // Remove punctuation except dashes (keep letters, numbers, spaces, dashes)
+    $string = preg_replace('/[\p{P}\p{S}&&[^-]]+/u', '', $string);
+
+    // Replace spaces and consecutive spaces with single dash
+    $string = preg_replace('/\s+/', '-', $string);
+
+    // Trim dashes from ends
+    $string = trim($string, '-');
+
+    return $string;
+
+}
+
+// Converts a URL string (dashes) back to lowercase with spaces
+function string_url_to_text($url_string) 
+{
+
+    // Replace dashes with spaces
+    $text = str_replace('-', ' ', $url_string);
+
+    // Convert to lowercase (in case input is not)
+    $text = strtolower($text);
+
+    // Optionally trim extra spaces
+    $text = trim($text);
+    
+    return $text;
+
+}
