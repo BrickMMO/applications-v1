@@ -32,10 +32,10 @@ $record = mysqli_fetch_assoc($result);
         <p><strong>Languages:</strong> <?=$record['language'] ?: '-'?></p>
         <p><strong>Stars:</strong> <?=$record['stars']?></p>
         <p><strong>Forks:</strong> <?=$record['forks']?></p>
-        <p><strong>GitHub:</strong> <a href="<?=$record['url']?>" target="_blank">View Repository</a></p>
+        <p><strong>GitHub:</strong> <a href="<?=$record['url']?>">View Repository</a></p>
     </div>
     <hr>
-    <a href="/list" class="w3-button w3-white w3-border">
+    <a href="/q" class="w3-button w3-white w3-border">
         <i class="fa-solid fa-caret-left fa-padding-right"></i>
         Back to Application List
     </a>
