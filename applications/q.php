@@ -81,8 +81,11 @@ include('../templates/message.php');
     // Get paginated results
     $query = 'SELECT DISTINCT applications.name,
         applications.url,
+        applications.github_name,
+        applications.github_url,
         SUM(contributors.contributions) AS contributions,
         applications.id,
+        applications.icon,
         (
             SELECT GROUP_CONCAT(DISTINCT languages.name SEPARATOR ", ")
             FROM languages
@@ -95,7 +98,7 @@ include('../templates/message.php');
         ON applications.id = contributors.application_id 
         '.$where_clause.'
         GROUP BY applications.id
-        ORDER BY applications.name DESC
+        ORDER BY applications.github_name
         LIMIT '.$offset.', '.$results_per_page;
     $result = mysqli_query($connect, $query);
 
@@ -129,10 +132,6 @@ include('../templates/message.php');
 
 <hr>
 
-
-
-
-
 <?php if (mysqli_num_rows($result) > 0): ?>
 
     <?php
@@ -143,21 +142,35 @@ include('../templates/message.php');
     <p class="w3-center">Displaying <?=$start_result?>-<?=$end_result?> of <?=$total_results?> results</p>
 
     <table class="w3-table w3-bordered w3-striped w3-margin-bottom">
-
         <?php while ($display = mysqli_fetch_assoc($result)): ?>
             <tr>
+                <td class="w3-center" style="width:60px;">
+                    <?php if (!empty($display['icon'])): ?>
+                        <img src="<?=htmlspecialchars($display['icon'])?>" alt="icon" style="width:50px;height:50px;object-fit:contain;">
+                    <?php else: ?>
+                        <span class="w3-text-grey"><i class="fa-regular fa-image fa-2x"></i></span>
+                    <?php endif; ?>
+                </td>
                 <td class="w3-padding">
-                    <?=$display['name']?>
+                    <?php if($display['name']): ?>
+                        <?=$display['name']?>
+                    <?php else: ?>
+                        <?=$display['github_name']?>
+                    <?php endif; ?>
                     <br>
                     <small>
-                        <a href="<?=$display['url']?>"><?=$display['url']?></a>
+                        <?php if($display['url']): ?>
+                            <a href="<?=string_url_local($display['url'])?>"><?=string_url_local($display['url'])?></a>
+                        <?php else: ?>
+                            <a href="<?=$display['github_url']?>"><?=$display['github_url']?></a>
+                        <?php endif; ?>
                         <?php if($display['languages']): ?>
                             <br>
                             Languages: <?=$display['languages']?>
                         <?php endif; ?>
                     </small>
                 </td>
-                <td class="w3-right-align">
+                <td class="w3-right-align" style="white-space: nowrap;">
                     <a href="/details/<?=$display['id']?>" class="w3-button w3-white w3-border ">
                         <i class="fa-solid fa-circle-info"></i> Details
                     </a>
@@ -167,7 +180,6 @@ include('../templates/message.php');
                 </td>
             </tr>
         <?php endwhile; ?>
-
     </table>
 
 <?php else: ?>
@@ -187,7 +199,8 @@ include('../templates/message.php');
         {
             echo '<a href="'.ENV_DOMAIN.'/q';
             if($i > 1) echo '/page/'.$i;
-            echo '/'.$q.'" class="w3-button';
+            if(isset($q))echo '/'.$q;
+            echo '" class="w3-button';
             if($i == $current_page) echo ' w3-border';
             echo '">'.$i.'</a>';
         }

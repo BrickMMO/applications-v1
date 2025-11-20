@@ -65,18 +65,22 @@ while (true)
         {
 
             $query = "INSERT INTO applications (
-                    name, 
-                    url, 
+                    github_name, 
+                    github_url, 
                     description, 
-                    forks,  
+                    forks,
                     stars, 
                     timesheets, 
+                    markdown, 
+                    toggle, 
                     created_at, 
                     updated_at
                 ) VALUES (
                     '{$name}',
                     '{$url}',
                     '{$description}',
+                    0,
+                    0,
                     0,
                     0,
                     0,

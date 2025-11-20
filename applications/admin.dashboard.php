@@ -31,7 +31,7 @@ include('../templates/message.php');
 
 $query = 'SELECT * 
     FROM applications
-    ORDER BY name ASC';    
+    ORDER BY github_name ASC';    
 $result = mysqli_query($connect, $query);
 
 $applications_count = mysqli_num_rows($result);
@@ -57,20 +57,51 @@ $applications_count = mysqli_num_rows($result);
 
 <table class="w3-table w3-bordered w3-striped w3-margin-bottom">
     <tr>
+        <td class="w3-center" style="width:60px;"></td>
         <th>Name</th>
-        <th>Timesheets</th>
-        <th>Stars</th>
-        <th>Forks</th>
+        <th><GitHub</th>
+        <th class="bm-table-icon"><i class="fa-brands fa-markdown" title="Markdown"></i></th>
+        <th class="bm-table-icon"><i class="fa-regular fa-calendar" title="Timesheets"></i></th>
+        <th class="bm-table-icon"><i class="fa-solid fa-toggle-on" title="Toggle"></i></th>
+        <th class="bm-table-icon"><i class="fa-solid fa-star" title="Stars"></i></th>
+        <th class="bm-table-icon"><i class="fa-solid fa-code-fork" title="Forks"></i></th>
         <th class="bm-table-icon"></th>
         <th class="bm-table-icon"></th>
     </tr>
 
     <?php while ($record = mysqli_fetch_assoc($result)): ?>
         <tr>
+            <td class="w3-center" style="width:60px;">
+                <?php if (!empty($record['icon'])): ?>
+                    <img src="<?=htmlspecialchars($record['icon'])?>" alt="icon" style="width:50px;height:50px;object-fit:contain;">
+                <?php else: ?>
+                    <span class="w3-text-grey"><i class="fa-regular fa-image fa-2x"></i></span>
+                <?php endif; ?>
+            </td>
             <td>
-                <a href="/details/<?=$record['id']?>"><?=$record['name']?></a>
-                <br>
-                <small><?=string_shorten($record['description'], 100)?></small>
+                <?=$record['name']?>
+                <?php if($record['url']): ?>
+                    <br>
+                    <small>
+                        <a href="<?=string_url_local($record['url'])?>"><?=string_url_local($record['url'])?></a>
+                    </small>
+                <?php endif; ?>
+            </td>
+            <td>
+                <?=$record['github_name']?>
+                <?php if($record['github_url']): ?>
+                    <br>
+                    <small>
+                        <a href="<?=$record['github_url']?>"><?=$record['github_url']?></a>
+                    </small>
+                <?php endif; ?>
+            </td>
+            <td class="w3-center">
+                <?php if($record['markdown'] == 1): ?>
+                    <i class="fa-solid fa-toggle-on" style="color: #ff5b00;"></i>
+                <?php else: ?>
+                    <i class="fa-solid fa-toggle-off" style="color: #888;"></i>
+                <?php endif; ?>
             </td>
             <td class="w3-center">
                 <?php if($record['timesheets'] == 1): ?>
@@ -79,18 +110,25 @@ $applications_count = mysqli_num_rows($result);
                     <i class="fa-solid fa-toggle-off" style="color: #888;"></i>
                 <?php endif; ?>
             </td>
-            <td>
+            <td class="w3-center">
+                <?php if($record['toggle'] == 1): ?>
+                    <i class="fa-solid fa-toggle-on" style="color: #ff5b00;"></i>
+                <?php else: ?>
+                    <i class="fa-solid fa-toggle-off" style="color: #888;"></i>
+                <?php endif; ?>
+            </td>
+            <td class="w3-center">
                 <?=$record['stars']?>
             </td>
-            <td>
+            <td class="w3-center">
                 <?=$record['forks']?>
             </td>
-            <td>
+            <td class="w3-center">
                 <a href="/admin/edit/<?=$record['id'] ?>">
                     <i class="fa-solid fa-pencil"></i>
                 </a>
             </td>
-            <td>
+            <td class="w3-center">
                 <a href="#" onclick="return confirmModal('Are you sure you want to delete the application <?=$record['name'] ?>?', '/admin/dashboard/delete/<?=$record['id'] ?>');">
                     <i class="fa-solid fa-trash-can"></i>
                 </a>

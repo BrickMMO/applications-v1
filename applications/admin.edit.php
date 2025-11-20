@@ -13,9 +13,14 @@ if(
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
-    
     $query = 'UPDATE applications SET
+        name = "'.addslashes($_POST['name']).'",
+        url = "'.addslashes($_POST['url']).'",
+        icon = "'.addslashes($_POST['icon']).'",
+        host_id = "'.addslashes($_POST['host_id']).'",
         timesheets = "'.addslashes($_POST['timesheets']).'",
+        markdown = "'.addslashes($_POST['markdown']).'",
+        toggle = "'.addslashes($_POST['toggle']).'",
         updated_at = NOW()
         WHERE id = '.$_GET['key'].'
         LIMIT 1';
@@ -72,23 +77,94 @@ $record = mysqli_fetch_assoc($result);
     novalidate
     id="main-form"
 >
+    
+    <input  
+        name="name" 
+        class="w3-input w3-border" 
+        type="text" 
+        id="name" 
+        autocomplete="off"
+        value="<?=$record['name']?>"
+    />
+    <label for="name" class="w3-text-gray">
+        Name <span id="name-error" class="w3-text-red"></span>
+    </label>
+
+    <input  
+        name="url" 
+        class="w3-input w3-border w3-margin-top" 
+        type="text" 
+        id="url" 
+        autocomplete="off"
+        value="<?=$record['url']?>"
+    />
+    <label for="url" class="w3-text-gray">
+        URL <span id="url-error" class="w3-text-red"></span>
+    </label>
+
+        <input  
+            name="icon" 
+            class="w3-input w3-border w3-margin-top" 
+            type="text" 
+            id="icon" 
+            autocomplete="off"
+            value="<?=isset($record['icon']) ? $record['icon'] : ''?>"
+        />
+        <label for="icon" class="w3-text-gray">
+            Icon <span id="icon-error" class="w3-text-red"></span>
+        </label>
 
     <?php
+    // Fetch hosts for dropdown
+    $hosts_result = mysqli_query($connect, 'SELECT id, name FROM hosts ORDER BY name ASC');
+    $hosts = array();
+    while ($host = mysqli_fetch_assoc($hosts_result)) {
+        $hosts[$host['id']] = $host['name'];
+    }
+    echo form_select_array('host_id', $hosts, array('empty_value' => '', 'selected' => isset($record['host_id']) ? $record['host_id'] : ''));
+    ?>
+    <label for="host_id" class="w3-text-gray">
+        Host <span id="host-error" class="w3-text-red"></span>
+    </label>
 
-    $timesheets = array('0' => 'Disabled', '1' => 'Enabled');
+    <?php
+    $timesheets = array('0' => 'No', '1' => 'Yes');
     echo form_select_array('timesheets', $timesheets, array('selected' => $record['timesheets']));
-
     ?>
     <label for="timesheet" class="w3-text-gray">
         Timesheet <span id="timesheet-error" class="w3-text-red"></span>
     </label>
 
-    <button class="w3-block w3-btn w3-orange w3-text-white w3-margin-top">
+    <?php
+    $markdown = array('0' => 'No', '1' => 'Yes');
+    echo form_select_array('markdown', $markdown, array('selected' => $record['markdown']));
+    ?>
+    <label for="markdown" class="w3-text-gray">
+        Markdown <span id="markdown-error" class="w3-text-red"></span>
+    </label>
+
+    <?php
+    $toggle = array('0' => 'No', '1' => 'Yes');
+    echo form_select_array('toggle', $toggle, array('selected' => $record['toggle']));
+    ?>
+    <label for="toggle" class="w3-text-gray">
+        Toggle <span id="toggle-error" class="w3-text-red"></span>
+    </label>
+
+    <button class="w3-block w3-btn w3-orange w3-text-white w3-margin-top" onclick="return validateMainForm();">
         <i class="fa-solid fa-tag fa-padding-right"></i>
         Edit Application
     </button>
-
 </form>
+
+<script>
+
+    function validateMainForm() {
+        let errors = 0;
+        if (errors) return false;
+    }
+
+</script>
 
 <?php
 include('../templates/main_footer.php');

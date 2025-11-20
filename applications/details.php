@@ -29,10 +29,10 @@ $record = mysqli_fetch_assoc($result);
     <hr>
     <div class="w3-container w3-padding">
         <p><strong>Description:</strong> <?=nl2br($record['description']) ?: 'No description available'?></p>
-        <p><strong>Languages:</strong> <?=$record['language'] ?: '-'?></p>
         <p><strong>Stars:</strong> <?=$record['stars']?></p>
         <p><strong>Forks:</strong> <?=$record['forks']?></p>
-        <p><strong>GitHub:</strong> <a href="<?=$record['url']?>">View Repository</a></p>
+        <p><strong>GitHub:</strong> <a href="<?=$record['github_url']?>">View Repository</a></p>
+        <p><strong>URL:</strong> <a href="<?=$record['url']?>">View Application</a></p>
     </div>
     <hr>
     <a href="/q" class="w3-button w3-white w3-border">
