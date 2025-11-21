@@ -71,14 +71,16 @@ while (true)
                     forks,
                     stars, 
                     timesheets, 
-                    markdown, 
                     toggle, 
+                    category_id, 
+                    host_id, 
                     created_at, 
                     updated_at
                 ) VALUES (
                     '{$name}',
                     '{$url}',
                     '{$description}',
+                    0,
                     0,
                     0,
                     0,

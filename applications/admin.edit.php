@@ -19,7 +19,7 @@ elseif ($_SERVER['REQUEST_METHOD'] == 'POST')
         icon = "'.addslashes($_POST['icon']).'",
         host_id = "'.addslashes($_POST['host_id']).'",
         timesheets = "'.addslashes($_POST['timesheets']).'",
-        markdown = "'.addslashes($_POST['markdown']).'",
+        category_id = "'.addslashes($_POST['category_id']).'",
         toggle = "'.addslashes($_POST['toggle']).'",
         updated_at = NOW()
         WHERE id = '.$_GET['key'].'
@@ -69,7 +69,7 @@ $record = mysqli_fetch_assoc($result);
 
 <hr>
 
-<h2>Edit Application: <?=$record['name']?></h2>
+<h2>Edit Application: <?=$record['name'] ? $record['name'] : $record['github_name'] ?></h2>
 
 <!-- Edit form -->
 <form
@@ -114,17 +114,14 @@ $record = mysqli_fetch_assoc($result);
             Icon <span id="icon-error" class="w3-text-red"></span>
         </label>
 
-    <?php
-    // Fetch hosts for dropdown
-    $hosts_result = mysqli_query($connect, 'SELECT id, name FROM hosts ORDER BY name ASC');
-    $hosts = array();
-    while ($host = mysqli_fetch_assoc($hosts_result)) {
-        $hosts[$host['id']] = $host['name'];
-    }
-    echo form_select_array('host_id', $hosts, array('empty_value' => '', 'selected' => isset($record['host_id']) ? $record['host_id'] : ''));
-    ?>
+    <?php echo form_select_table('host_id', 'hosts', 'id', 'name', array('empty_value' => '', 'empty_key' => 0, 'selected' => isset($record['host_id']) ? $record['host_id'] : '')); ?>
     <label for="host_id" class="w3-text-gray">
         Host <span id="host-error" class="w3-text-red"></span>
+    </label>
+
+    <?php echo form_select_table('category_id', 'categories', 'id', 'name', array('empty_value' => '', 'empty_key' => 0, 'selected' => isset($record['category_id']) ? $record['category_id'] : '')); ?>
+    <label for="host_id" class="w3-text-gray">
+        Category <span id="category-error" class="w3-text-red"></span>
     </label>
 
     <?php
@@ -134,15 +131,7 @@ $record = mysqli_fetch_assoc($result);
     <label for="timesheet" class="w3-text-gray">
         Timesheet <span id="timesheet-error" class="w3-text-red"></span>
     </label>
-
-    <?php
-    $markdown = array('0' => 'No', '1' => 'Yes');
-    echo form_select_array('markdown', $markdown, array('selected' => $record['markdown']));
-    ?>
-    <label for="markdown" class="w3-text-gray">
-        Markdown <span id="markdown-error" class="w3-text-red"></span>
-    </label>
-
+    
     <?php
     $toggle = array('0' => 'No', '1' => 'Yes');
     echo form_select_array('toggle', $toggle, array('selected' => $record['toggle']));

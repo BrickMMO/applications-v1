@@ -29,8 +29,14 @@ include('../templates/main_header.php');
 
 include('../templates/message.php');    
 
-$query = 'SELECT * 
+$query = 'SELECT applications.*,
+    categories.name AS category_name,
+    hosts.image AS host_image
     FROM applications
+    LEFT JOIN categories
+    ON applications.category_id = categories.id
+    LEFT JOIN hosts
+    ON applications.host_id = hosts.id
     ORDER BY github_name ASC';    
 $result = mysqli_query($connect, $query);
 
@@ -58,9 +64,9 @@ $applications_count = mysqli_num_rows($result);
 <table class="w3-table w3-bordered w3-striped w3-margin-bottom">
     <tr>
         <td class="w3-center" style="width:60px;"></td>
+        <td class="w3-center" style="width:60px;"></td>
         <th>Name</th>
         <th><GitHub</th>
-        <th class="bm-table-icon"><i class="fa-brands fa-markdown" title="Markdown"></i></th>
         <th class="bm-table-icon"><i class="fa-regular fa-calendar" title="Timesheets"></i></th>
         <th class="bm-table-icon"><i class="fa-solid fa-toggle-on" title="Toggle"></i></th>
         <th class="bm-table-icon"><i class="fa-solid fa-star" title="Stars"></i></th>
@@ -74,18 +80,25 @@ $applications_count = mysqli_num_rows($result);
             <td class="w3-center" style="width:60px;">
                 <?php if (!empty($record['icon'])): ?>
                     <img src="<?=htmlspecialchars($record['icon'])?>" alt="icon" style="width:50px;height:50px;object-fit:contain;">
-                <?php else: ?>
-                    <span class="w3-text-grey"><i class="fa-regular fa-image fa-2x"></i></span>
+                <?php endif; ?>
+            </td>
+            <td class="w3-center" style="width:60px;">
+                <?php if (!empty($record['host_image'])): ?>
+                    <img src="<?=htmlspecialchars($record['host_image'])?>" alt="host icon" style="width:50px;height:50px;object-fit:contain;">
                 <?php endif; ?>
             </td>
             <td>
                 <?=$record['name']?>
-                <?php if($record['url']): ?>
-                    <br>
-                    <small>
+                <small>
+                    <?php if($record['url']): ?>
+                        <br>
                         <a href="<?=string_url_local($record['url'])?>"><?=string_url_local($record['url'])?></a>
-                    </small>
-                <?php endif; ?>
+                    <?php endif; ?>
+                    <?php if($record['category_name']): ?>
+                        <br>
+                        <?=$record['category_name']?>
+                    <?php endif; ?>
+                </small>
             </td>
             <td>
                 <?=$record['github_name']?>
@@ -94,13 +107,6 @@ $applications_count = mysqli_num_rows($result);
                     <small>
                         <a href="<?=$record['github_url']?>"><?=$record['github_url']?></a>
                     </small>
-                <?php endif; ?>
-            </td>
-            <td class="w3-center">
-                <?php if($record['markdown'] == 1): ?>
-                    <i class="fa-solid fa-toggle-on" style="color: #ff5b00;"></i>
-                <?php else: ?>
-                    <i class="fa-solid fa-toggle-off" style="color: #888;"></i>
                 <?php endif; ?>
             </td>
             <td class="w3-center">

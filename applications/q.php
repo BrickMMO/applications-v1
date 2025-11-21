@@ -215,40 +215,44 @@ include('../templates/message.php');
 
 <script>
 
-let searchButton = document.getElementById('search-button');
-let searchTerm = document.getElementById('search-term');
+(function() {
+        
+    let searchButton = document.getElementById('search-button');
+    let searchTerm = document.getElementById('search-term');
 
-function performSearch() 
-{
-
-    let query = searchTerm.value.trim();
-
-    // Remove anything that's not letters, numbers, or spaces
-    query = query.replace(/[^a-zA-Z0-9\s]/g, '');
-    // Replace spaces with hyphens
-    query = query.replace(/\s+/g, '-');
-    window.location.href = '/q/' + query;
-
-}
-
-searchButton.addEventListener('click', function(event) 
-{
-
-    event.preventDefault();
-    performSearch();
-
-});
-
-searchTerm.addEventListener('keypress', function(event) 
-{
-
-    if (event.key === 'Enter') 
+    function performSearch() 
     {
-        event.preventDefault();
-        performSearch();
+
+        let query = searchTerm.value.trim();
+
+        // Remove anything that's not letters, numbers, or spaces
+        query = query.replace(/[^a-zA-Z0-9\s]/g, '');
+        // Replace spaces with hyphens
+        query = query.replace(/\s+/g, '-');
+        window.location.href = '/q/' + query;
+
     }
 
-});
+    searchButton.addEventListener('click', function(event) 
+    {
+
+        event.preventDefault();
+        performSearch();
+
+    });
+
+    searchTerm.addEventListener('keypress', function(event) 
+    {
+
+        if (event.key === 'Enter') 
+        {
+            event.preventDefault();
+            performSearch();
+        }
+
+    });
+
+})();
 
 </script>
 
