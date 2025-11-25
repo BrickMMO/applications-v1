@@ -5,6 +5,8 @@ if(!isset($_GET['key']))
     $_GET['key'] = '';
 }
 
+$where = '';
+
 if (!empty($_GET['key'])) 
 {
     $words = preg_split('/\s+/', string_url_to_text($_GET['key']));

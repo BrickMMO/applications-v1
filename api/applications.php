@@ -1,9 +1,14 @@
 <?php
 
 $query = 'SELECT * 
-    FROM applications 
-    WHERE timesheets = 1 
-    ORDER BY name';
+    FROM applications ';
+
+if(isset($_GET['timesheets']) && $_GET['timesheets'] == 'true')
+{
+    $query .= 'WHERE timesheets = 1 ';
+} 
+
+$query .= 'ORDER BY name';
 $result = mysqli_query($connect, $query);
 
 $applications = array();
