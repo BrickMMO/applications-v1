@@ -22,24 +22,27 @@ $record = mysqli_fetch_assoc($result);
 
 ?>
 
-<main>   
-    <div class="w3-center">
-        <h1><?=$record['name']?></h1>
-    </div>
-    <hr>
-    <div class="w3-container w3-padding">
-        <p><strong>Description:</strong> <?=nl2br($record['description']) ?: 'No description available'?></p>
-        <p><strong>Stars:</strong> <?=$record['stars']?></p>
-        <p><strong>Forks:</strong> <?=$record['forks']?></p>
-        <p><strong>GitHub:</strong> <a href="<?=$record['github_url']?>">View Repository</a></p>
-        <p><strong>URL:</strong> <a href="<?=$record['url']?>">View Application</a></p>
-    </div>
-    <hr>
-    <a href="/q" class="w3-button w3-white w3-border">
-        <i class="fa-solid fa-caret-left fa-padding-right"></i>
-        Back to Application List
-    </a>
-</main>
+
+<div class="w3-center">
+    <h1><?=$record['name']?></h1>
+</div>
+
+<hr>
+
+<div>
+    <p><strong>Description:</strong> <?=nl2br($record['description']) ?: 'No description available'?></p>
+    <p><strong>Stars:</strong> <?=$record['stars']?></p>
+    <p><strong>Forks:</strong> <?=$record['forks']?></p>
+    <p><strong>GitHub:</strong> <a href="<?=$record['github_url']?>"><?=$record['github_url']?></a></p>
+    <p><strong>URL:</strong> <a href="<?=$record['url']?>"><?=$record['url']?></a></p>
+</div>
+
+<hr>
+
+<a href="/q" class="w3-button w3-white w3-border">
+    <i class="fa-solid fa-caret-left fa-padding-right"></i>
+    Back to Application List
+</a>
 
 <?php
 
