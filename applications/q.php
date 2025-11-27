@@ -184,7 +184,10 @@ include('../templates/message.php');
 
 <?php else: ?>
 
-    <p class="w3-center">No results found for <strong><?=htmlspecialchars(str_replace('-', ' ', $q))?></strong>.</p>
+    <p class="w3-center">
+        No results found for 
+        <span class="w3-bold"><?=htmlspecialchars(str_replace('-', ' ', $q))?></span>.
+    </p>
 
 <?php endif; ?>
 
@@ -210,8 +213,6 @@ include('../templates/message.php');
     </div>
 
 </nav>
-
-
 
 <script>
 

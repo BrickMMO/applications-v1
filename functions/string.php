@@ -1,5 +1,14 @@
 <?php
 
+function string_filesize($bytes, $decimals = 0)
+{
+
+    $sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    $factor = floor((strlen($bytes) - 1) / 3);
+    return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . ' ' . $sizes[$factor];
+
+}
+
 function string_hash($length = 10)
 {
 

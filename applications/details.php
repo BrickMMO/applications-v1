@@ -30,11 +30,23 @@ $record = mysqli_fetch_assoc($result);
 <hr>
 
 <div>
-    <p><strong>Description:</strong> <?=nl2br($record['description']) ?: 'No description available'?></p>
-    <p><strong>Stars:</strong> <?=$record['stars']?></p>
-    <p><strong>Forks:</strong> <?=$record['forks']?></p>
-    <p><strong>GitHub:</strong> <a href="<?=$record['github_url']?>"><?=$record['github_url']?></a></p>
-    <p><strong>URL:</strong> <a href="<?=$record['url']?>"><?=$record['url']?></a></p>
+    <p><?=nl2br($record['description']) ?: 'No description available'?></p>
+    <p>
+        Stars: <span class="w3-bold"><?=$record['stars']?></span>
+        <br>
+        Forks: <span class="w3-bold"><?=$record['forks']?></span>
+    </p>
+    <p>
+        GitHub: 
+        <a href="<?=$record['github_url']?>">
+            <span class="w3-bold"><?=$record['github_url']?></span>
+        </a>
+        <br>
+        URL: 
+        <a href="<?=$record['url']?>">
+            <span class="w3-bold"><?=$record['url']?></span>
+        </a>
+    </p>
 </div>
 
 <hr>
