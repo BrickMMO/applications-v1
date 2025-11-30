@@ -21,6 +21,10 @@ function navigation_array($selected = false)
                                     'url' => '/admin/dashboard',
                                     'colour' => 'red',
                                 ],[
+                                    'title' => 'GitHub Scanner',
+                                    'url' => '/admin/github/dashboard',
+                                    'colour' => 'red',
+                                ],[
                                     'br' => '---',
                                 ],[
                                     'title' => 'Visit Applications App',

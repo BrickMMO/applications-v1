@@ -184,10 +184,10 @@ include('../templates/message.php');
 
 <?php else: ?>
 
-    <p class="w3-center">
-        No results found for 
-        <span class="w3-bold"><?=htmlspecialchars(str_replace('-', ' ', $q))?></span>.
-    </p>
+    <div class="w3-panel w3-light-grey">
+        <h3 class="w3-margin-top"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> No Results Found</h3>
+        <p>No results found for <span class="w3-bold"><?=htmlspecialchars(str_replace('-', ' ', $q))?></span>.</p>
+    </div>
 
 <?php endif; ?>
 
