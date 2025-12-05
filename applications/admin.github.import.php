@@ -58,7 +58,7 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
 
 <hr>
 
-<h2>Importing Repos</h2>
+<h2>Import Repos</h2>
 
 <p>
     Importing:
@@ -73,12 +73,17 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
     <div class="w3-container w3-green w3-padding w3-center" style="width:0%; min-width: 50px" id="progress">0%</div>
 </div>
 
-<div class="w3-container w3-border w3-padding-16 w3-margin-bottom" id="loading" style="max-height: 500px; overflow: scroll">
+<div class="w3-container w3-border w3-padding-16 w3-margin-bottom" id="loading" style="max-height: 500px; overflow: scroll; display: none;">
     <h3>
         <i class="fa-solid fa-spinner fa-spin"></i>
         Loading...
     </h3>
 </div>
+
+<a href="#" onclick="startScan(); return false;" class="w3-button w3-margin-bottom w3-border">
+    <i class="fa-solid fa-cloud-download-alt fa-padding-right"></i>
+    Start Import
+</a> 
 
 <script>
 
@@ -104,12 +109,21 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
             .then((responseJson)=>{return responseJson});
     }
 
+    function startScan()
+    {
+
+        let loading = document.getElementById('loading');
+        loading.style.display = "block";
+
+        scanRepos();
+    }
+
     async function scanRepos() {
 
         let loading = document.getElementById('loading');
         let progress = document.getElementById('progress');
         let repoCount = document.getElementById('repo-count');
-        
+
         const account = '<?=$_GET['key']?>';
         const resultAccount = await fetchAccount(account);
         
@@ -179,8 +193,6 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
         }
             
     }
-
-    scanRepos();
 
 </script>
 
