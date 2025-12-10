@@ -130,7 +130,7 @@ $applications_count = mysqli_num_rows($result);
                 <?=$record['forks']?>
             </td>
             <td class="w3-center">
-                <a href="/admin/edit/<?=$record['id'] ?>">
+                <a href="<?=ENV_DOMAIN?>/admin/edit/<?=$record['id'] ?>">
                     <i class="fa-solid fa-pencil"></i>
                 </a>
             </td>

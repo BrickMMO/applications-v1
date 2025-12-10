@@ -38,8 +38,8 @@ $result = mysqli_query($connect, $query);
 </h1>
 
 <p>
-    <a href="/admin/dashboard">Dashboard</a> / 
-    <a href="/admin/github/dashboard">GitHub Scanner</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/dashboard">Dashboard</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/github/dashboard">GitHub Scanner</a> / 
     Scan Results
 </p>
 
@@ -74,7 +74,7 @@ $result = mysqli_query($connect, $query);
                 <?=$record['pull_requests']?>
             </td>
             <td class="w3-right-align" style="white-space: nowrap;">
-                <a href="/admin/github/details/<?=$record['name']?>" class="w3-button w3-white w3-border ">
+                <a href="<?=ENV_DOMAIN?>/admin/github/details/<?=$record['name']?>" class="w3-button w3-white w3-border ">
                     <i class="fa-solid fa-circle-info"></i> Details
                 </a>
                 <a href="https://github.com/<?=$record['owner']?>/<?=$record['name']?>" class="w3-button w3-white w3-border">

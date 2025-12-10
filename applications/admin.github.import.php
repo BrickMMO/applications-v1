@@ -51,8 +51,8 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
 </h1>
 
 <p>
-    <a href="/applications/dashboard">Applications</a> / 
-    <a href="/admin/github/dashboard">GitHub Tools</a> / 
+    <a href="<?=ENV_DOMAIN?>/applications/dashboard">Applications</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/github/dashboard">GitHub Tools</a> / 
     Import <?=$_GET['key']?>
 </p>
 
@@ -171,7 +171,7 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
                 ul.innerHTML += '<li>'+resultRepo.errors[i]+'</li>';
             }
 
-            let links = `<a href="/admin/github/details/${resultRepo.repo.name}" class="w3-button w3-white w3-border ">
+            let links = `<a href="<?=ENV_DOMAIN?>/admin/github/details/${resultRepo.repo.name}" class="w3-button w3-white w3-border ">
                     <i class="fa-solid fa-circle-info"></i> Details
                 </a>
                 <a href="https:///github.com/${resultRepo.repo.owner}/${resultRepo.repo.name}" class="w3-button w3-white w3-border">

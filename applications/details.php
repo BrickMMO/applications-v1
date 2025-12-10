@@ -51,7 +51,7 @@ $record = mysqli_fetch_assoc($result);
 
 <hr>
 
-<a href="/q" class="w3-button w3-white w3-border">
+<a href="<?=ENV_DOMAIN?>/q" class="w3-button w3-white w3-border">
     <i class="fa-solid fa-caret-left fa-padding-right"></i>
     Back to Application List
 </a>

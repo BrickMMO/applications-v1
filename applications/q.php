@@ -171,7 +171,7 @@ include('../templates/message.php');
                     </small>
                 </td>
                 <td class="w3-right-align" style="white-space: nowrap;">
-                    <a href="/details/<?=$display['id']?>" class="w3-button w3-white w3-border ">
+                    <a href="<?=ENV_DOMAIN?>/details/<?=$display['id']?>" class="w3-button w3-white w3-border ">
                         <i class="fa-solid fa-circle-info"></i> Details
                     </a>
                     <a href="<?=$display['url']?>" class="w3-button w3-white w3-border">

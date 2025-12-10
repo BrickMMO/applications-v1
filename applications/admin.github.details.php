@@ -69,8 +69,8 @@ include('../templates/message.php');
     Applications
 </h1>
 <p>
-    <a href="/admin/dashboard">Applications</a> / 
-    <a href="/admin/github/dashboard">GitHub Scanner</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/github/dashboard">GitHub Scanner</a> / 
     Repo Scan Details    
 </p>
 
@@ -105,7 +105,7 @@ include('../templates/message.php');
 <hr />
 
 <a
-    href="/admin/github/details/rescan/<?=$record['name']?>"
+    href="<?=ENV_DOMAIN?>/admin/github/details/rescan/<?=$record['name']?>"
     class="w3-button w3-white w3-border"
     onclick="loading();"
 >

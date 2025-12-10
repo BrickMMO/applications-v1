@@ -38,7 +38,7 @@ $result = mysqli_query($connect, $query);
     Applications
 </h1>
 <p>
-    <a href="/admin/dashboard">Applications</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
     GitHub Scanner
 </p>
 
@@ -90,7 +90,7 @@ $result = mysqli_query($connect, $query);
                     </div>
                     
                     <div class="w3-container w3-center w3-margin-bottom">
-                        <a href="/admin/github/details/<?=$record['name']?>" class="w3-button w3-white w3-border ">
+                        <a href="<?=ENV_DOMAIN?>/admin/github/details/<?=$record['name']?>" class="w3-button w3-white w3-border ">
                             <i class="fa-solid fa-circle-info"></i> Details
                         </a>
                         <a href="https://github.com/<?=$record['owner']?>/<?=$record['name']?>" class="w3-button w3-white w3-border ">
@@ -110,7 +110,7 @@ $result = mysqli_query($connect, $query);
 <hr>
 
 <a
-    href="/admin/github/results/"
+    href="<?=ENV_DOMAIN?>/admin/github/results/"
     class="w3-button w3-white w3-border"
 >
     <i class="fa-solid fa-magnifying-glass fa-padding-right"></i> View all Results
@@ -119,7 +119,7 @@ $result = mysqli_query($connect, $query);
 <?php foreach(explode(',', $github_accounts) as $account): ?>
 
     <a
-        href="/admin/github/import/<?=$account?>"
+        href="<?=ENV_DOMAIN?>/admin/github/import/<?=$account?>"
         class="w3-button w3-white w3-border"
     >
         <i class="fa-solid fa-pen-to-square fa-padding-right"></i> Import <?=$account?>

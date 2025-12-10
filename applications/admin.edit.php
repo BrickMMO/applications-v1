@@ -63,7 +63,7 @@ $record = mysqli_fetch_assoc($result);
     Applications
 </h1>
 <p>
-    <a href="/admin/dashboard">Applications</a> / 
+    <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
     Edit Application
 </p>
 
