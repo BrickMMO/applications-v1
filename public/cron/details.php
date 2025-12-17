@@ -7,7 +7,7 @@ include('../../functions/functions.php');
 echo '<h2>Updating Application Details</h2>';
 
 // Get 20 oldest updated applications
-$query = "SELECT id, name, url  
+$query = "SELECT id, github_name, github_url  
     FROM applications 
     -- WHERE id = 93
     ORDER BY updated_at ASC 
@@ -21,11 +21,11 @@ while ($app = mysqli_fetch_assoc($result))
 
     // debug_pre($app);
 
-    echo 'Processing: '.$app['name'].'<br>';
-    
+    echo 'Processing: '.$app['github_name'].'<br>';
+
     // Extract owner and repo from URL
     // URL format: https://github.com/BrickMMO/repo-name
-    $urlParts = explode('/', $app['url']);
+    $urlParts = explode('/', $app['github_url']);
     $owner = $urlParts[3];
     $repo = $urlParts[4];
     
@@ -48,7 +48,7 @@ while ($app = mysqli_fetch_assoc($result))
     if ($response === false || $httpCode !== 200) 
     {
 
-        echo 'Failed to fetch details for: '.$app['name'].' (HTTP '.$httpCode.')<br>';
+        echo 'Failed to fetch details for: '.$app['github_name'].' (HTTP '.$httpCode.')<br>';
         if ($httpCode == 403) 
         {
             echo 'Rate limit likely reached. Stopping execution.<br>';
@@ -167,12 +167,12 @@ while ($app = mysqli_fetch_assoc($result))
     
     if (mysqli_query($connect, $updateQuery)) 
     {
-        echo 'Updated: '.$app['name'].' - Language: '.$language.', Stars: '.$stars.', Forks: '.$forks.'<br>';
+        echo 'Updated: '.$app['github_name'].' - Language: '.$language.', Stars: '.$stars.', Forks: '.$forks.'<br>';
         $updated++;
     } 
     else 
     {
-        echo 'Failed to update database for: '.$app['name'].'<br>';
+        echo 'Failed to update database for: '.$app['github_name'].'<br>';
     }
 
     /*

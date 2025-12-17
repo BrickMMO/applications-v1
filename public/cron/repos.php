@@ -57,10 +57,13 @@ while (true)
         // Check if URL already exists
         $checkQuery = 'SELECT id 
             FROM applications 
-            WHERE url = "'.$url.'"
+            WHERE github_url = "'.$url.'"
             LIMIT 1';
+        // echo $checkQuery.'<br>';
         $result = mysqli_query($connect, $checkQuery);
         
+        // echo 'Rows: '.mysqli_num_rows($result).'<br>';
+
         if (mysqli_num_rows($result) == 0) 
         {
 
@@ -68,6 +71,7 @@ while (true)
                     github_name, 
                     github_url, 
                     description, 
+                    icon,
                     forks,
                     stars, 
                     timesheets, 
@@ -80,6 +84,7 @@ while (true)
                     '{$name}',
                     '{$url}',
                     '{$description}',
+                    '',
                     0,
                     0,
                     0,
