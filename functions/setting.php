@@ -14,7 +14,7 @@ function setting_fetch($name, $format = 'plain')
     if(!mysqli_num_rows($result))
     {
 
-        $data = fetch_json('http://sso.brickmmo.com/api/setting/'.$name);
+        $data = fetch_json(ENV_SSO_DOMAIN.'/api/setting/'.$name);
         $record['value'] = $data['setting'];
 
     }

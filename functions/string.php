@@ -147,15 +147,19 @@ function string_url_to_text($url_string)
 
 // Converts a live BrickMMO URL to a local URL, checking .env for HTTPS and LOCAL
 function string_url_local($url)
-{    
-    
+{
+
     if (ENV_LOCAL == true) 
     {
-
         // Do not convert for GitHub hosted assets
-        if(in_array(string_url_ip($url), array('185.199.108.153', '185.199.109.153', '185.199.110.153', '185.199.108.111'))) return $url;
-        $url = str_replace('brickmmo.com', 'local.brickmmo.com:33', $url);
-        
+        if(string_url_ip($url) == '185.199.108.153') return $url;
+
+        // Convert to local if not already local
+        if(strpos($url, 'local.brickmmo.com:33') === false)
+        {
+            $url = str_replace('brickmmo.com', 'local.brickmmo.com:33', $url);
+        }
+
     }
 
     if(ENV_HTTPS == false)
