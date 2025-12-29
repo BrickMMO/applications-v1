@@ -4,21 +4,22 @@ if(isset($_GET['key']))
 {
 
     $q = string_url($_GET['key']);
-    if($q != $_GET['key'])
-    {
-        header_redirect('/q/'.$q);
-    }
+    if($q != $_GET['key']) header_redirect('/q/'.$q);
  
 }
 
 // Get page number from URL if set
 if(isset($_GET['page']) && is_numeric($_GET['page']))
 {
+
     $current_page = (int)$_GET['page'];
+
 }
 else
 {
+
     $current_page = 1;
+
 }
 
 define('APP_NAME', 'Applications');
@@ -29,7 +30,6 @@ define('PAGE_SELECTED_SUB_PAGE', '');
 include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'SELECT DISTINCT applications.name,
@@ -158,4 +158,5 @@ $brands_result = mysqli_query($connect, $query);
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');

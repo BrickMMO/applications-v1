@@ -9,7 +9,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'SELECT *
@@ -21,20 +20,24 @@ $record = mysqli_fetch_assoc($result);
 
 ?>
 
-
 <div class="w3-center">
+
     <h1><?=$record['name']?></h1>
+    
 </div>
 
 <hr>
 
 <div>
+
     <p><?=nl2br($record['description']) ?: 'No description available'?></p>
+
     <p>
         Stars: <span class="w3-bold"><?=$record['stars']?></span>
         <br>
         Forks: <span class="w3-bold"><?=$record['forks']?></span>
     </p>
+
     <p>
         GitHub: 
         <a href="<?=$record['github_url']?>">
@@ -46,6 +49,7 @@ $record = mysqli_fetch_assoc($result);
             <span class="w3-bold"><?=$record['url']?></span>
         </a>
     </p>
+    
 </div>
 
 <hr>

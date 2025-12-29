@@ -6,13 +6,15 @@ admin_check();
 if(
     !isset($_GET['key']) || 
     !is_numeric($_GET['key']))
-{
-    
+{    
+
     message_set('Tag Error', 'There was an error with the provided application.');
     header_redirect('/admin/dashboard');
+
 }
 elseif ($_SERVER['REQUEST_METHOD'] == 'POST') 
 {
+
     $query = 'UPDATE applications SET
         name = "'.addslashes($_POST['name']).'",
         url = "'.addslashes($_POST['url']).'",
@@ -40,9 +42,7 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
-
 
 $query = 'SELECT *
     FROM applications
@@ -61,6 +61,7 @@ $record = mysqli_fetch_assoc($result);
     />
     Applications
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
     Edit Application
@@ -70,7 +71,6 @@ $record = mysqli_fetch_assoc($result);
 
 <h2>Edit Application: <?=$record['name'] ? $record['name'] : $record['github_name'] ?></h2>
 
-<!-- Edit form -->
 <form
     method="post"
     novalidate
@@ -101,17 +101,17 @@ $record = mysqli_fetch_assoc($result);
         URL <span id="url-error" class="w3-text-red"></span>
     </label>
 
-        <input  
-            name="icon" 
-            class="w3-input w3-border w3-margin-top" 
-            type="text" 
-            id="icon" 
-            autocomplete="off"
-            value="<?=isset($record['icon']) ? $record['icon'] : ''?>"
-        />
-        <label for="icon" class="w3-text-gray">
-            Icon <span id="icon-error" class="w3-text-red"></span>
-        </label>
+    <input  
+        name="icon" 
+        class="w3-input w3-border w3-margin-top" 
+        type="text" 
+        id="icon" 
+        autocomplete="off"
+        value="<?=isset($record['icon']) ? $record['icon'] : ''?>"
+    />
+    <label for="icon" class="w3-text-gray">
+        Icon <span id="icon-error" class="w3-text-red"></span>
+    </label>
 
     <?php echo form_select_table('host_id', 'hosts', 'id', 'name', array('empty_value' => '', 'empty_key' => 0, 'selected' => isset($record['host_id']) ? $record['host_id'] : '')); ?>
     <label for="host_id" class="w3-text-gray">
@@ -143,6 +143,7 @@ $record = mysqli_fetch_assoc($result);
         <i class="fa-solid fa-tag fa-padding-right"></i>
         Edit Application
     </button>
+    
 </form>
 
 <script>
@@ -155,6 +156,7 @@ $record = mysqli_fetch_assoc($result);
 </script>
 
 <?php
+
 include('../templates/main_footer.php');
 include('../templates/debug.php');
 include('../templates/html_footer.php');

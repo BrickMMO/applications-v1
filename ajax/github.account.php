@@ -2,15 +2,19 @@
 
 if(!security_is_logged_in())
 {
+
     $data = array('message' => 'Must be logged in to use this ajax call.', 'error' => false);
     return;
+    
 }
 
 /*
 elseif(!isset($_user['github_access_token']))
 {
+
     $data = array('message' => 'Admin user must approve BrickMMO GitHub app.', 'error' => false);
     return;
+    
 }
 */
 

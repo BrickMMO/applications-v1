@@ -12,7 +12,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $github_accounts = setting_fetch('GITHUB_ACCOUNTS');
@@ -25,8 +24,6 @@ $query = 'SELECT *
 $result = mysqli_query($connect, $query);
 
 ?>
-
-<!-- CONENT -->
 
 <h1 class="w3-margin-top w3-margin-bottom">
     <img

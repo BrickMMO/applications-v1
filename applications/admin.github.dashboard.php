@@ -12,7 +12,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $github_accounts = setting_fetch('GITHUB_ACCOUNTS');
@@ -27,8 +26,6 @@ $result = mysqli_query($connect, $query);
 
 ?>
 
-<!-- CONENT -->
-
 <h1 class="w3-margin-top w3-margin-bottom">
     <img
         src="https://cdn.brickmmo.com/icons@1.0.0/colours.png"
@@ -37,6 +34,7 @@ $result = mysqli_query($connect, $query);
     />
     Applications
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
     GitHub Scanner
@@ -49,9 +47,11 @@ $result = mysqli_query($connect, $query);
 <p>
     Currently scanning: <span class="w3-tag w3-blue"><?=$github_accounts?></span>
 </p>
+
 <p>
     Number of repos scanned: <span class="w3-tag w3-blue"><?=$github_repos_scanned?></span> 
 </p>
+
 <p>
     Last import: <span class="w3-tag w3-blue"><?=(new DateTime($github_last_import))->format("D, M j g:i A")?></span>
 </p>
@@ -60,9 +60,7 @@ $result = mysqli_query($connect, $query);
 
 <h2>Repo Fix List</h2>
 
-<?php if(mysqli_num_rows($result) == 0): ?>
-    
-<?php else: ?>
+<?php if(mysqli_num_rows($result)): ?>
 
     <div class="w3-flex" style="flex-wrap: wrap; gap: 16px; align-items: stretch;">
 
@@ -103,6 +101,13 @@ $result = mysqli_query($connect, $query);
             
         <?php endwhile; ?>
 
+    </div>
+
+<?php else: ?>
+
+    <div class="w3-panel w3-light-grey">
+        <h3 class="w3-margin-top"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> No Scanned Repos</h3>
+        <p>There are no scaned repos. Import is required.</p>
     </div>
 
 <?php endif; ?>

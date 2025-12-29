@@ -2,21 +2,27 @@
 
 if(!isset($_GET['key']))
 {
+
     $_GET['key'] = '';
+
 }
 
 $where = '';
 
 if (!empty($_GET['key'])) 
 {
+
     $words = preg_split('/\s+/', string_url_to_text($_GET['key']));
     $search_clauses = [];
     foreach ($words as $word) 
     {
+
         $word = mysqli_real_escape_string($connect, $word);
         $search_clauses[] = '(applications.name LIKE "%'.$word.'%" OR languages.name LIKE "%'.$word.'%" OR contributors.github_login LIKE "%'.$word.'%")';
+
     }
     $where .= ' AND (' . implode(' OR ', $search_clauses) . ')';
+    
 }
 
 $query = 'SELECT applications.*

@@ -25,7 +25,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');    
 
 $query = 'SELECT applications.*,
@@ -65,11 +64,9 @@ $applications_count = mysqli_num_rows($result);
         <td class="w3-center" style="width:60px;"></td>
         <td class="w3-center" style="width:60px;"></td>
         <th>Name</th>
-        <th><GitHub</th>
+        <th>GitHub</th>
         <th class="bm-table-icon"><i class="fa-regular fa-calendar" title="Timesheets"></i></th>
         <th class="bm-table-icon"><i class="fa-solid fa-toggle-on" title="Toggle"></i></th>
-        <th class="bm-table-icon"><i class="fa-solid fa-star" title="Stars"></i></th>
-        <th class="bm-table-icon"><i class="fa-solid fa-code-fork" title="Forks"></i></th>
         <th class="bm-table-icon"></th>
         <th class="bm-table-icon"></th>
     </tr>
@@ -121,12 +118,6 @@ $applications_count = mysqli_num_rows($result);
                 <?php else: ?>
                     <i class="fa-solid fa-toggle-off" style="color: #888;"></i>
                 <?php endif; ?>
-            </td>
-            <td class="w3-center">
-                <?=$record['stars']?>
-            </td>
-            <td class="w3-center">
-                <?=$record['forks']?>
             </td>
             <td class="w3-center">
                 <a href="<?=ENV_DOMAIN?>/admin/edit/<?=$record['id'] ?>">

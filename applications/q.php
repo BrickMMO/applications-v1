@@ -4,21 +4,22 @@ if(isset($_GET['key']))
 {
 
     $q = string_url($_GET['key']);
-    if($q != $_GET['key'])
-    {
-        header_redirect('/q/'.$q);
-    }
+    if($q != $_GET['key']) header_redirect('/q/'.$q);
  
 }
 
 // Get page number from URL if set
 if(isset($_GET['page']) && is_numeric($_GET['page']))
 {
+
     $current_page = (int)$_GET['page'];
+
 }
 else
 {
+
     $current_page = 1;
+
 }
 
 define('APP_NAME', 'Applications');
@@ -29,83 +30,82 @@ define('PAGE_SELECTED_SUB_PAGE', '');
 include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
-    // Pagination setup
-    $results_per_page = 10;
-    $offset = ($current_page - 1) * $results_per_page;
+// Pagination setup
+$results_per_page = 10;
+$offset = ($current_page - 1) * $results_per_page;
 
-    $where_clause = 'WHERE timesheets = 1 ';
+// Where clause initialization
+$where_clause = 'WHERE timesheets = 1 ';
 
-    if(isset($q))
+if(isset($q))
+{
+
+    // Split search term by dashes
+    $search_terms = explode('-', $q);
+    
+    // Build WHERE clause for multiple terms
+    $where_conditions = [];
+    foreach($search_terms as $term) 
     {
 
-        // Split search term by dashes
-        $search_terms = explode('-', $q);
-        
-        // Build WHERE clause for multiple terms
-        $where_conditions = [];
-        foreach($search_terms as $term) 
+        $term = trim($term);
+
+        if(!empty($term)) 
         {
 
-            $term = trim($term);
-
-            if(!empty($term)) 
-            {
-                $term = mysqli_real_escape_string($connect, $term);
-                $where_conditions[] = 'applications.name LIKE "%'.$term.'%"';
-                $where_conditions[] = 'languages.name LIKE "%'.$term.'%"';
-                $where_conditions[] = 'contributors.github_login LIKE "%'.$term.'%"';
-            }
+            $term = mysqli_real_escape_string($connect, $term);
+            $where_conditions[] = 'applications.name LIKE "%'.$term.'%"';
+            $where_conditions[] = 'languages.name LIKE "%'.$term.'%"';
+            $where_conditions[] = 'contributors.github_login LIKE "%'.$term.'%"';
 
         }
-        
-        $where_clause .= 'AND ('.implode(' OR ', $where_conditions).')';
 
     }
+    
+    $where_clause .= 'AND ('.implode(' OR ', $where_conditions).')';
 
-    // Count total results
-    $count_query = 'SELECT COUNT(DISTINCT applications.id) AS total
-        FROM applications 
-        LEFT JOIN languages
-        ON applications.id = languages.application_id
-        LEFT JOIN contributors
-        ON applications.id = contributors.application_id 
-        '.$where_clause;
-    $count_result = mysqli_query($connect, $count_query);
-    $count_row = mysqli_fetch_assoc($count_result);
-    $total_results = $count_row['total'];
-    $total_pages = ceil($total_results / $results_per_page);
+}
 
-    // Get paginated results
-    $query = 'SELECT DISTINCT applications.name,
-        applications.url,
-        applications.github_name,
-        applications.github_url,
-        SUM(contributors.contributions) AS contributions,
-        applications.id,
-        applications.icon,
-        (
-            SELECT GROUP_CONCAT(DISTINCT languages.name SEPARATOR ", ")
-            FROM languages
-            WHERE applications.id = languages.application_id
-        ) AS languages
-        FROM applications
-        LEFT JOIN languages
-        ON applications.id = languages.application_id
-        LEFT JOIN contributors
-        ON applications.id = contributors.application_id 
-        '.$where_clause.'
-        GROUP BY applications.id
-        ORDER BY applications.github_name
-        LIMIT '.$offset.', '.$results_per_page;
-    $result = mysqli_query($connect, $query);
+// Count total results
+$count_query = 'SELECT COUNT(DISTINCT applications.id) AS total
+    FROM applications 
+    LEFT JOIN languages
+    ON applications.id = languages.application_id
+    LEFT JOIN contributors
+    ON applications.id = contributors.application_id 
+    '.$where_clause;
+$count_result = mysqli_query($connect, $count_query);
+$count_row = mysqli_fetch_assoc($count_result);
+$total_results = $count_row['total'];
+$total_pages = ceil($total_results / $results_per_page);
 
+// Get paginated results
+$query = 'SELECT DISTINCT applications.name,
+    applications.url,
+    applications.github_name,
+    applications.github_url,
+    SUM(contributors.contributions) AS contributions,
+    applications.id,
+    applications.icon,
+    (
+        SELECT GROUP_CONCAT(DISTINCT languages.name SEPARATOR ", ")
+        FROM languages
+        WHERE applications.id = languages.application_id
+    ) AS languages
+    FROM applications
+    LEFT JOIN languages
+    ON applications.id = languages.application_id
+    LEFT JOIN contributors
+    ON applications.id = contributors.application_id 
+    '.$where_clause.'
+    GROUP BY applications.id
+    ORDER BY applications.github_name
+    LIMIT '.$offset.', '.$results_per_page;
+$result = mysqli_query($connect, $query);
 
 ?>
-
-
     
 <div class="w3-center">
 
@@ -260,4 +260,5 @@ include('../templates/message.php');
 <?php
 
 include('../templates/main_footer.php');
+include('../templates/debug.php');
 include('../templates/html_footer.php');

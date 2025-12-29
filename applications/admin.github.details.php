@@ -14,8 +14,10 @@ if(isset($_GET['key']))
 
     if(!mysqli_num_rows($result))
     {
+
         message_set('Repo Error', 'There was an error loading this repo.', 'red');
         header_redirect('/admin/github/dashboard');
+
     }
 
     $record = mysqli_fetch_assoc($result);
@@ -32,8 +34,10 @@ elseif(isset($_GET['rescan']))
 
     if(!mysqli_num_rows($result))
     {
+
         message_set('Repo Error', 'There was an error loading this repo.', 'red');
         header_redirect('/admin/github/dashboard');
+
     }
 
     $record = mysqli_fetch_assoc($result);
@@ -68,6 +72,7 @@ include('../templates/message.php');
     />
     Applications
 </h1>
+
 <p>
     <a href="<?=ENV_DOMAIN?>/admin/dashboard">Applications</a> / 
     <a href="<?=ENV_DOMAIN?>/admin/github/dashboard">GitHub Scanner</a> / 
@@ -81,9 +86,11 @@ include('../templates/message.php');
 <p>
     Pull requests: <span class="w3-tag w3-blue"><?=$record['pull_requests']?></span> 
 </p>
+
 <p>
     Errors found: <span class="w3-tag w3-blue"><?=$record['error_count']?></span> 
 </p>
+
 <p>
     Last scan: <span class="w3-tag w3-blue"><?=(new DateTime($record['updated_at']))->format("D, M j g:i A")?></span>
 </p>

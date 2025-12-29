@@ -5,16 +5,20 @@ admin_check();
 
 if (!isset($_GET['key']) || !in_array($_GET['key'], explode(',', setting_fetch('GITHUB_ACCOUNTS'))))
 {
+
     message_set('Import Error', 'There was an error importing repos.', 'red');
     header_redirect('/admin/github/dashboard');
+
 }
 
 $github_access_token = setting_fetch('GITHUB_ACCESS_TOKEN');
 
 if (!$github_access_token)
 {
+
     message_set('GitHub Error', 'Missing GitHub authentication tokens.', 'red');
     header_redirect('/admin/github/dashboard');
+
 }
 
 define('APP_NAME', 'GitHub Scanner');
@@ -27,7 +31,6 @@ include('../templates/html_header.php');
 include('../templates/nav_header.php');
 include('../templates/nav_sidebar.php');
 include('../templates/main_header.php');
-
 include('../templates/message.php');
 
 $query = 'DELETE 
@@ -38,8 +41,6 @@ mysqli_query($connect, $query);
 setting_update('GITHUB_LAST_IMPORT', date_now());
 
 ?>
-
-<!-- CONENT -->
 
 <h1 class="w3-margin-top w3-margin-bottom">
     <img
@@ -64,6 +65,7 @@ setting_update('GITHUB_LAST_IMPORT', date_now());
     Importing:
     <span class="w3-tag w3-blue" id="repo-count">0/0</span>
 </p>
+
 <p>
     Importing from: 
     <span class="w3-tag w3-blue"><?=$_GET['key']?></span>
